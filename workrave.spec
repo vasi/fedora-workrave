@@ -14,6 +14,8 @@ BuildRequires:  gnet2-devel
 BuildRequires: 	libgnomeuimm26-devel
 BuildRequires:  gnome-panel-devel
 BuildRequires:  desktop-file-utils
+BuildRequires:  libXmu-devel
+BuildRequires:  libXt-devel
 
 %description
 Workrave is a program that assists in the recovery and prevention of
@@ -63,6 +65,7 @@ desktop-file-install --vendor fedora                    \
 %changelog
 * Thu Feb  2 2006 Tomas Mraz <tmraz@redhat.com> - 1.8.2-1
 - Updated version, dropped obsolete patch
+- Added missing buildrequires for modular X
 
 * Sat Oct 22 2005 Tomas Mraz <tmraz@redhat.com> - 1.8.1-4
 - Added a desktop file
