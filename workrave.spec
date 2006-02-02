@@ -8,6 +8,8 @@ Group: Applications/Productivity
 URL: http://workrave.sourceforge.net/
 Source0: http://prdownloads.sourceforge.net/workrave/%{name}-%{version}.tar.gz
 Source1: workrave.desktop
+Patch1: workrave-1.8.2-cpp-fix.patch
+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gettext
 BuildRequires:  gnet2-devel
@@ -24,6 +26,8 @@ take micro-pauses, rest breaks and restricts you to your daily limit.
 
 %prep
 %setup -q
+
+%patch1 -p1 -b .cpp-fix
 
 %build
 if [ ! -x configure ]; then
@@ -66,6 +70,7 @@ desktop-file-install --vendor fedora                    \
 * Thu Feb  2 2006 Tomas Mraz <tmraz@redhat.com> - 1.8.2-1
 - Updated version, dropped obsolete patch
 - Added missing buildrequires for modular X
+- Fixed compilation on gcc-4.1
 
 * Sat Oct 22 2005 Tomas Mraz <tmraz@redhat.com> - 1.8.1-4
 - Added a desktop file
