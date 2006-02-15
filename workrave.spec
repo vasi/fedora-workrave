@@ -1,6 +1,6 @@
 Name: workrave
 Version: 1.8.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPL
@@ -67,6 +67,9 @@ desktop-file-install --vendor fedora                    \
 %{_datadir}/applications/fedora-workrave.desktop
 
 %changelog
+* Wed Feb 15 2006 Tomas Mraz <tmraz@redhat.com> - 1.8.2-2
+- Rebuilt with updated gcc
+
 * Thu Feb  2 2006 Tomas Mraz <tmraz@redhat.com> - 1.8.2-1
 - Updated version, dropped obsolete patch
 - Added missing buildrequires for modular X
