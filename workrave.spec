@@ -1,6 +1,6 @@
 Name: workrave
-Version: 1.8.2
-Release: 2%{?dist}
+Version: 1.8.3
+Release: 1%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPL
@@ -8,7 +8,6 @@ Group: Applications/Productivity
 URL: http://workrave.sourceforge.net/
 Source0: http://prdownloads.sourceforge.net/workrave/%{name}-%{version}.tar.gz
 Source1: workrave.desktop
-Patch1: workrave-1.8.2-cpp-fix.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gettext
@@ -26,8 +25,6 @@ take micro-pauses, rest breaks and restricts you to your daily limit.
 
 %prep
 %setup -q
-
-%patch1 -p1 -b .cpp-fix
 
 %build
 if [ ! -x configure ]; then
@@ -67,6 +64,9 @@ desktop-file-install --vendor fedora                    \
 %{_datadir}/applications/fedora-workrave.desktop
 
 %changelog
+* Wed May 31 2006 Tomas Mraz <tmraz@redhat.com> - 1.8.3-1
+- New upstream version
+
 * Wed Feb 15 2006 Tomas Mraz <tmraz@redhat.com> - 1.8.2-2
 - Rebuilt with updated gcc
 
