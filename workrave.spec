@@ -1,12 +1,13 @@
 Name: workrave
-Version: 1.8.3
+Version: 1.8.4
 Release: 2%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPL
 Group: Applications/Productivity
 URL: http://workrave.sourceforge.net/
-Source0: http://prdownloads.sourceforge.net/workrave/%{name}-%{version}.tar.gz
+# For some reason the upstream tarball contains the -2 added to the version.
+Source0: http://prdownloads.sourceforge.net/workrave/%{name}-%{version}-2.tar.gz
 Source1: workrave.desktop
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -24,7 +25,7 @@ Repetitive Strain Injury (RSI). The program frequently alerts you to
 take micro-pauses, rest breaks and restricts you to your daily limit.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}
 
 %build
 if [ ! -x configure ]; then
@@ -60,10 +61,15 @@ desktop-file-install --vendor fedora                    \
 %{_libdir}/bonobo/servers/Workrave-Control.server
 %{_libexecdir}/workrave-applet
 %{_datadir}/gnome-2.0/ui/GNOME_WorkraveApplet.xml
+%dir %{_datadir}/pixmaps/workrave
 %{_datadir}/pixmaps/workrave/workrave-icon-huge.png
 %{_datadir}/applications/fedora-workrave.desktop
 
 %changelog
+* Mon Mar 26 2007 Tomas Mraz <tmraz@redhat.com> - 1.8.4-2
+- new upstream version
+- add datadir/pixmaps/workrave to files (#233815)
+
 * Thu Sep  7 2006 Tomas Mraz <tmraz@redhat.com> - 1.8.3-2
 - rebuilt for FC6
 
