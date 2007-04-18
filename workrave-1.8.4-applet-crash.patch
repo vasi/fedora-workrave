@@ -1,0 +1,11 @@
+--- workrave/trunk/frontend/gtkmm/src/GUI.cc	2007/03/04 18:23:55	1144
++++ workrave/trunk/frontend/gtkmm/src/GUI.cc	2007/03/27 18:12:49	1161
+@@ -223,8 +223,8 @@
+   init_core();
+   init_sound_player();
+   init_multihead();
+-  init_remote_control();
+   init_gui();
++  init_remote_control();
+ 
+   on_timer();
