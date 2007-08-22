@@ -1,15 +1,16 @@
 Name: workrave
 Version: 1.8.4
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
-License: GPL
+License: GPLv2+
 Group: Applications/Productivity
 URL: http://workrave.sourceforge.net/
 # For some reason the upstream tarball contains the -2 added to the version.
 Source0: http://prdownloads.sourceforge.net/workrave/%{name}-%{version}-2.tar.gz
 Source1: workrave.desktop
 Patch1: workrave-1.8.4-applet-crash.patch
+Patch2: workrave-1.8.4-applet-fix.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gettext
@@ -28,6 +29,7 @@ take micro-pauses, rest breaks and restricts you to your daily limit.
 %prep
 %setup -q -n %{name}-%{version}
 %patch1 -p2 -b .crash
+%patch2 -p2 -b .appletfix
 
 %build
 if [ ! -x configure ]; then
@@ -68,6 +70,10 @@ desktop-file-install --vendor fedora                    \
 %{_datadir}/applications/fedora-workrave.desktop
 
 %changelog
+* Wed Aug 22 2007 Tomas Mraz <tmraz@redhat.com> - 1.8.4-4
+- applet counters don't start properly
+- license tag fix
+
 * Wed Apr 18 2007 Tomas Mraz <tmraz@redhat.com> - 1.8.4-3
 - fixed applet crash (#236543)
 
