@@ -1,0 +1,22 @@
+diff -up workrave-1.8.5/backend/src/Statistics.cc.gcc43 workrave-1.8.5/backend/src/Statistics.cc
+--- workrave-1.8.5/backend/src/Statistics.cc.gcc43	2007-09-14 20:50:38.000000000 +0200
++++ workrave-1.8.5/backend/src/Statistics.cc	2008-02-19 13:01:44.000000000 +0100
+@@ -23,6 +23,7 @@ static const char rcsid[] = "$Id: Statis
+ 
+ #include <sstream>
+ #include <assert.h>
++#include <cstring>
+ 
+ #include "debug.hh"
+ 
+diff -up workrave-1.8.5/backend/src/GlibIniConfigurator.cc.gcc43 workrave-1.8.5/backend/src/GlibIniConfigurator.cc
+--- workrave-1.8.5/backend/src/GlibIniConfigurator.cc.gcc43	2008-02-19 13:01:15.000000000 +0100
++++ workrave-1.8.5/backend/src/GlibIniConfigurator.cc	2008-02-19 13:00:18.000000000 +0100
+@@ -29,6 +29,7 @@ static const char rcsid[] = "$Id: GlibIn
+ 
+ #include "GlibIniConfigurator.hh"
+ #include <glib.h>
++#include <cstring>
+ 
+ GlibIniConfigurator::GlibIniConfigurator()
+   : config(NULL)
