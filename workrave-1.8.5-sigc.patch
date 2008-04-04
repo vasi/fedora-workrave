@@ -1,0 +1,12 @@
+diff -up workrave-1.8.5/frontend/gtkmm/src/GnomeAppletWindow.hh.sigc workrave-1.8.5/frontend/gtkmm/src/GnomeAppletWindow.hh
+--- workrave-1.8.5/frontend/gtkmm/src/GnomeAppletWindow.hh.sigc	2008-04-04 11:28:52.000000000 +0200
++++ workrave-1.8.5/frontend/gtkmm/src/GnomeAppletWindow.hh	2008-04-04 11:29:02.000000000 +0200
+@@ -25,7 +25,7 @@
+ #include "AppletWindow.hh"
+ 
+ #ifdef HAVE_GTKMM24
+-#include <sigc++/compatibility.h>
++#include <sigc++/object.h>
+ #endif
+ 
+ #include <gnome.h>

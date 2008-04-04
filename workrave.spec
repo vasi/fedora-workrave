@@ -12,6 +12,7 @@ Source1: workrave.desktop
 
 Patch1: workrave-1.8.5-gcc43.patch
 Patch2: workrave-1.8.5-lock.patch
+Patch3: workrave-1.8.5-sigc.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gettext
@@ -31,6 +32,7 @@ take micro-pauses, rest breaks and restricts you to your daily limit.
 %setup -q -n %{name}-%{version}
 %patch1 -p1 -b .gcc43
 %patch2 -p1 -b .lock
+%patch3 -p1 -b .sigc
 
 %build
 if [ ! -x configure ]; then

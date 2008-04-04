@@ -6,4 +6,4 @@ Exec=workrave
 Icon=/usr/share/pixmaps/workrave/workrave-icon-huge.png
 Terminal=false
 Type=Application
-Categories=Application;Utility
+Categories=Application;Utility;
