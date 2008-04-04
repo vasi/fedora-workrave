@@ -75,6 +75,7 @@ desktop-file-install --vendor fedora                    \
 %changelog
 * Fri Apr  4 2008 Tomas Mraz <tmraz@redhat.com> - 1.8.5-4
 - fix locking/unlocking with gnome-screensaver (#207058)
+- make it build with current libsigc++
 
 * Wed Feb 20 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 1.8.5-3
 - Autorebuild for GCC 4.3
