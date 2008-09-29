@@ -20,6 +20,7 @@ BuildRequires:  libXt-devel
 BuildRequires:  gdome2-devel
 BuildRequires:  dbus-devel
 BuildRequires:  gstreamer-devel
+BuildRequires:  intltool
 
 Requires: dbus
 
