@@ -1,18 +1,13 @@
 Name: workrave
-Version: 1.8.5
-Release: 4%{?dist}
+Version: 1.9.0
+Release: 1%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPLv2+
 Group: Applications/Productivity
 URL: http://workrave.sourceforge.net/
-# For some reason the upstream tarball contains the -2 added to the version.
-Source0: http://prdownloads.sourceforge.net/workrave/%{name}-%{version}.tar.gz
-Source1: workrave.desktop
-
-Patch1: workrave-1.8.5-gcc43.patch
-Patch2: workrave-1.8.5-lock.patch
-Patch3: workrave-1.8.5-sigc.patch
+# For some reason the upstream tarball contains the -3 added to the version.
+Source0: http://prdownloads.sourceforge.net/workrave/%{name}-%{version}-3.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gettext
@@ -22,6 +17,10 @@ BuildRequires:  gnome-panel-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libXmu-devel
 BuildRequires:  libXt-devel
+BuildRequires:  gdome2-devel
+BuildRequires:  dbus-devel
+
+Requires: dbus
 
 %description
 Workrave is a program that assists in the recovery and prevention of
@@ -30,28 +29,29 @@ take micro-pauses, rest breaks and restricts you to your daily limit.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch1 -p1 -b .gcc43
-%patch2 -p1 -b .lock
-%patch3 -p1 -b .sigc
 
 %build
 if [ ! -x configure ]; then
   ### Needed for snapshot releases.
   CFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=%{_prefix} --localstatedir=%{_localstatedir} --sysconfdir=%{_sysconfdir}
 else
-  %configure
+  %configure --enable-dbus
 fi
 %{__make}
 
 %install
 %{__rm} -rf $RPM_BUILD_ROOT
-%makeinstall
+
+make install DESTDIR=$RPM_BUILD_ROOT
+
 %find_lang %{name}
 
 desktop-file-install --vendor fedora                    \
   --dir ${RPM_BUILD_ROOT}%{_datadir}/applications       \
   --add-category X-Fedora                               \
-  %{SOURCE1}
+  --remove-category GTK                                 \
+  --delete-original					\
+  $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %clean
@@ -65,14 +65,16 @@ desktop-file-install --vendor fedora                    \
 %{_datadir}/sounds/workrave
 %{_sysconfdir}/sound/events/workrave.soundlist
 %{_libdir}/bonobo/servers/Workrave-Applet.server
-%{_libdir}/bonobo/servers/Workrave-Control.server
 %{_libexecdir}/workrave-applet
 %{_datadir}/gnome-2.0/ui/GNOME_WorkraveApplet.xml
-%dir %{_datadir}/pixmaps/workrave
-%{_datadir}/pixmaps/workrave/workrave-icon-huge.png
+%{_datadir}/pixmaps/workrave
 %{_datadir}/applications/fedora-workrave.desktop
+%{_datadir}/dbus-1/services/org.workrave.Workrave.service
 
 %changelog
+* Fri Sep 26 2008 Tomas Mraz <tmraz@redhat.com> - 1.9.0-1
+- new upstream version
+
 * Fri Apr  4 2008 Tomas Mraz <tmraz@redhat.com> - 1.8.5-4
 - fix locking/unlocking with gnome-screensaver (#207058)
 - make it build with current libsigc++
