@@ -19,6 +19,7 @@ BuildRequires:  libXmu-devel
 BuildRequires:  libXt-devel
 BuildRequires:  gdome2-devel
 BuildRequires:  dbus-devel
+BuildRequires:  gstreamer-devel
 
 Requires: dbus
 
