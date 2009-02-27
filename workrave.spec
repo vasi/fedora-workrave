@@ -1,6 +1,6 @@
 Name: workrave
 Version: 1.9.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPLv2+
@@ -8,6 +8,7 @@ Group: Applications/Productivity
 URL: http://workrave.sourceforge.net/
 # For some reason the upstream tarball contains the -3 added to the version.
 Source0: http://prdownloads.sourceforge.net/workrave/%{name}-%{version}-3.tar.gz
+Patch1: workrave-1.9.0-gcc44.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gettext
@@ -31,6 +32,7 @@ take micro-pauses, rest breaks and restricts you to your daily limit.
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch1 -p1 -b .gcc44
 
 %build
 if [ ! -x configure ]; then
@@ -74,8 +76,8 @@ desktop-file-install --vendor fedora                    \
 %{_datadir}/dbus-1/services/org.workrave.Workrave.service
 
 %changelog
-* Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.9.0-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+* Fri Feb 27 2009 Tomas Mraz <tmraz@redhat.com> - 1.9.0-3
+- fix build with new gcc 4.4 and glibc
 
 * Fri Sep 26 2008 Tomas Mraz <tmraz@redhat.com> - 1.9.0-1
 - new upstream version
