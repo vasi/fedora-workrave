@@ -1,14 +1,12 @@
 Name: workrave
-Version: 1.9.0
-Release: 4%{?dist}
+Version: 1.9.1
+Release: 1%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPLv2+
 Group: Applications/Productivity
 URL: http://workrave.sourceforge.net/
-# For some reason the upstream tarball contains the -3 added to the version.
-Source0: http://prdownloads.sourceforge.net/workrave/%{name}-%{version}-3.tar.gz
-Patch1: workrave-1.9.0-gcc44.patch
+Source0: http://prdownloads.sourceforge.net/workrave/%{name}-%{version}.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gettext
@@ -18,6 +16,7 @@ BuildRequires:  gnome-panel-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libXmu-devel
 BuildRequires:  libXt-devel
+BuildRequires:  libXtst-devel
 BuildRequires:  gdome2-devel
 BuildRequires:  dbus-devel
 BuildRequires:  gstreamer-devel
@@ -32,7 +31,6 @@ take micro-pauses, rest breaks and restricts you to your daily limit.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch1 -p1 -b .gcc44
 
 %build
 if [ ! -x configure ]; then
@@ -76,6 +74,9 @@ desktop-file-install --vendor fedora                    \
 %{_datadir}/dbus-1/services/org.workrave.Workrave.service
 
 %changelog
+* Tue Dec  9 2009 Tomas Mraz <tmraz@redhat.com> - 1.9.1-1
+- new upstream version
+
 * Mon Jul 27 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.9.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
