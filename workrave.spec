@@ -16,6 +16,7 @@ BuildRequires:  gnome-panel-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libXmu-devel
 BuildRequires:  libXt-devel
+BuildRequires:  libXtst-devel
 BuildRequires:  gdome2-devel
 BuildRequires:  dbus-devel
 BuildRequires:  gstreamer-devel
