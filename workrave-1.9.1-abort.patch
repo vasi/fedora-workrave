@@ -1,6 +1,6 @@
 diff -up workrave-1.9.1/backend/src/unix/X11InputMonitor.cc.abort workrave-1.9.1/backend/src/unix/X11InputMonitor.cc
 --- workrave-1.9.1/backend/src/unix/X11InputMonitor.cc.abort	2009-09-18 20:46:22.000000000 +0200
-+++ workrave-1.9.1/backend/src/unix/X11InputMonitor.cc	2010-04-26 08:43:58.000000000 +0200
++++ workrave-1.9.1/backend/src/unix/X11InputMonitor.cc	2010-04-26 10:31:50.000000000 +0200
 @@ -1,6 +1,6 @@
  // X11InputMonitor.cc --- ActivityMonitor for X11
  //
@@ -140,7 +140,7 @@ diff -up workrave-1.9.1/backend/src/unix/X11InputMonitor.cc.abort workrave-1.9.1
  
 diff -up workrave-1.9.1/backend/src/unix/X11InputMonitor.hh.abort workrave-1.9.1/backend/src/unix/X11InputMonitor.hh
 --- workrave-1.9.1/backend/src/unix/X11InputMonitor.hh.abort	2009-05-28 21:04:02.000000000 +0200
-+++ workrave-1.9.1/backend/src/unix/X11InputMonitor.hh	2010-04-26 08:44:23.000000000 +0200
++++ workrave-1.9.1/backend/src/unix/X11InputMonitor.hh	2010-04-26 10:31:50.000000000 +0200
 @@ -1,6 +1,6 @@
  // X11InputMonitor.hh --- ActivityMonitor for X11
  //
@@ -159,10 +159,22 @@ diff -up workrave-1.9.1/backend/src/unix/X11InputMonitor.hh.abort workrave-1.9.1
  #ifdef HAVE_XRECORD
    //! Initialize
    bool init_xrecord();
+diff -up workrave-1.9.1/configure.abort workrave-1.9.1/configure
+--- workrave-1.9.1/configure.abort	2009-10-25 12:15:06.000000000 +0100
++++ workrave-1.9.1/configure	2010-04-26 10:38:10.000000000 +0200
+@@ -29896,7 +29896,7 @@ $as_echo "#define HAVE_GNET2 /**/" >>con
+ fi
+ 
+ HAVE_APP_GTK=
+-if test "x$GTKMM_LIBS" != "x"; then
++if test "x$GTK_LIBS" != "x"; then
+ 
+ $as_echo "#define HAVE_APP_GTK /**/" >>confdefs.h
+ 
 diff -up workrave-1.9.1/configure.ac.abort workrave-1.9.1/configure.ac
---- workrave-1.9.1/configure.ac.abort	2010-03-17 23:08:27.000000000 +0100
-+++ workrave-1.9.1/configure.ac	2010-04-26 10:09:42.000000000 +0200
-@@ -665,7 +665,7 @@ if test "x$GNET2" != "x"; then
+--- workrave-1.9.1/configure.ac.abort	2009-10-24 10:12:32.000000000 +0200
++++ workrave-1.9.1/configure.ac	2010-04-26 10:31:50.000000000 +0200
+@@ -663,7 +663,7 @@ if test "x$GNET2" != "x"; then
  fi
          
  HAVE_APP_GTK=
