@@ -159,3 +159,15 @@ diff -up workrave-1.9.1/backend/src/unix/X11InputMonitor.hh.abort workrave-1.9.1
  #ifdef HAVE_XRECORD
    //! Initialize
    bool init_xrecord();
+diff -up workrave-1.9.1/configure.ac.abort workrave-1.9.1/configure.ac
+--- workrave-1.9.1/configure.ac.abort	2010-03-17 23:08:27.000000000 +0100
++++ workrave-1.9.1/configure.ac	2010-04-26 10:09:42.000000000 +0200
+@@ -665,7 +665,7 @@ if test "x$GNET2" != "x"; then
+ fi
+         
+ HAVE_APP_GTK=
+-if test "x$GTKMM_LIBS" != "x"; then
++if test "x$GTK_LIBS" != "x"; then
+    AC_DEFINE(HAVE_APP_GTK,,[Define if Gtk is available])
+ fi
+ 
