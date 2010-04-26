@@ -1,6 +1,18 @@
+diff -up workrave-1.9.1/backend/src/unix/Makefile.in.abort workrave-1.9.1/backend/src/unix/Makefile.in
+--- workrave-1.9.1/backend/src/unix/Makefile.in.abort	2009-10-25 12:14:58.000000000 +0100
++++ workrave-1.9.1/backend/src/unix/Makefile.in	2010-04-26 10:56:53.000000000 +0200
+@@ -435,7 +435,7 @@ libworkrave_backend_unix_la_CXXFLAGS = \
+ 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
+ 			-D_XOPEN_SOURCE=600 \
+ 			@WR_COMMON_INCLUDES@ \
+-			@GLIB_CFLAGS@ @GCONF_CFLAGS@
++			@GLIB_CFLAGS@ @GCONF_CFLAGS@ @GTK_CFLAGS@
+ 
+ EXTRA_DIST = $(wildcard *.cc) $(wildcard *.rc)\
+ 			$(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc)
 diff -up workrave-1.9.1/backend/src/unix/X11InputMonitor.cc.abort workrave-1.9.1/backend/src/unix/X11InputMonitor.cc
 --- workrave-1.9.1/backend/src/unix/X11InputMonitor.cc.abort	2009-09-18 20:46:22.000000000 +0200
-+++ workrave-1.9.1/backend/src/unix/X11InputMonitor.cc	2010-04-26 10:31:50.000000000 +0200
++++ workrave-1.9.1/backend/src/unix/X11InputMonitor.cc	2010-04-26 10:52:13.000000000 +0200
 @@ -1,6 +1,6 @@
  // X11InputMonitor.cc --- ActivityMonitor for X11
  //
