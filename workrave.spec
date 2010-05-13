@@ -1,23 +1,24 @@
 Name: workrave
 Version: 1.9.1
-Release: 1%{?dist}
+Release: 4%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPLv2+
 Group: Applications/Productivity
 URL: http://workrave.sourceforge.net/
 Source0: http://prdownloads.sourceforge.net/workrave/%{name}-%{version}.tar.gz
+Patch1: workrave-1.9.1-compile.patch
+Patch2: workrave-1.9.1-abort.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gettext
 BuildRequires:  gnet2-devel
-BuildRequires: 	libgnomeuimm26-devel
+BuildRequires:  libgnomeuimm26-devel
 BuildRequires:  gnome-panel-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libXmu-devel
 BuildRequires:  libXt-devel
 BuildRequires:  libXtst-devel
-BuildRequires:  gdome2-devel
 BuildRequires:  dbus-devel
 BuildRequires:  gstreamer-devel
 BuildRequires:  intltool
@@ -31,14 +32,17 @@ take micro-pauses, rest breaks and restricts you to your daily limit.
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch1 -p1 -b .compile
+%patch2 -p1 -b .abort
 
 %build
 if [ ! -x configure ]; then
   ### Needed for snapshot releases.
-  CFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=%{_prefix} --localstatedir=%{_localstatedir} --sysconfdir=%{_sysconfdir}
-else
-  %configure --enable-dbus
+  NOCONFIGURE=1 ./autogen.sh
 fi
+
+%configure --enable-dbus --disable-xml
+
 %{__make}
 
 %install
@@ -52,7 +56,7 @@ desktop-file-install --vendor fedora                    \
   --dir ${RPM_BUILD_ROOT}%{_datadir}/applications       \
   --add-category X-Fedora                               \
   --remove-category GTK                                 \
-  --delete-original					\
+  --delete-original                                     \
   $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
@@ -74,6 +78,15 @@ desktop-file-install --vendor fedora                    \
 %{_datadir}/dbus-1/services/org.workrave.Workrave.service
 
 %changelog
+* Mon Apr 26 2010 Tomas Mraz <tmraz@redhat.com> - 1.9.1-4
+- better guard for BadWindow errors in input monitor (#566156)
+
+* Wed Mar 17 2010 Tomas Mraz <tmraz@redhat.com> - 1.9.1-3
+- fix FTBFS (#564917)
+
+* Thu Jan 28 2010 Tomas Mraz <tmraz@redhat.com> - 1.9.1-2
+- do not build against gdome2 - not too useful optional feature
+
 * Tue Dec  9 2009 Tomas Mraz <tmraz@redhat.com> - 1.9.1-1
 - new upstream version
 
