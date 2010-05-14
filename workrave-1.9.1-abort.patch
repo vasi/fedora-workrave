@@ -1,0 +1,197 @@
+diff -up workrave-1.9.1/backend/src/unix/Makefile.in.abort workrave-1.9.1/backend/src/unix/Makefile.in
+--- workrave-1.9.1/backend/src/unix/Makefile.in.abort	2009-10-25 12:14:58.000000000 +0100
++++ workrave-1.9.1/backend/src/unix/Makefile.in	2010-04-26 10:56:53.000000000 +0200
+@@ -435,7 +435,7 @@ libworkrave_backend_unix_la_CXXFLAGS = \
+ 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
+ 			-D_XOPEN_SOURCE=600 \
+ 			@WR_COMMON_INCLUDES@ \
+-			@GLIB_CFLAGS@ @GCONF_CFLAGS@
++			@GLIB_CFLAGS@ @GCONF_CFLAGS@ @GTK_CFLAGS@
+ 
+ EXTRA_DIST = $(wildcard *.cc) $(wildcard *.rc)\
+ 			$(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc)
+diff -up workrave-1.9.1/backend/src/unix/X11InputMonitor.cc.abort workrave-1.9.1/backend/src/unix/X11InputMonitor.cc
+--- workrave-1.9.1/backend/src/unix/X11InputMonitor.cc.abort	2009-09-18 20:46:22.000000000 +0200
++++ workrave-1.9.1/backend/src/unix/X11InputMonitor.cc	2010-04-26 10:52:13.000000000 +0200
+@@ -1,6 +1,6 @@
+ // X11InputMonitor.cc --- ActivityMonitor for X11
+ //
+-// Copyright (C) 2001-2007, 2009 Rob Caelers <robc@krandor.nl>
++// Copyright (C) 2001-2007, 2009, 2010 Rob Caelers <robc@krandor.nl>
+ // All rights reserved.
+ //
+ // This program is free software: you can redistribute it and/or modify
+@@ -77,7 +77,9 @@
+ 
+ using namespace std;
+ 
++#ifdef HAVE_XRECORD
+ int X11InputMonitor::xi_event_base = 0;
++#endif
+ 
+ #ifndef HAVE_APP_GTK
+ //! Intercepts X11 protocol errors.
+@@ -230,27 +232,18 @@ X11InputMonitor::run_events()
+ {
+   TRACE_ENTER("X11InputMonitor::run_events");
+ 
++  error_trap_enter();
++  
+   root_window = DefaultRootWindow(x11_display);
+-
+   set_all_events(root_window);
+ 
+-#ifdef HAVE_APP_GTK
+-  gdk_error_trap_push();
+-#else
+-  int (*old_handler)(Display *dpy, XErrorEvent *error);
+-  old_handler = XSetErrorHandler(&errorHandler);
+-#endif
+-
+   XGrabButton(x11_display, AnyButton, AnyModifier, root_window, True,
+               ButtonPressMask, GrabModeSync, GrabModeAsync, None, None);
+   XSync(x11_display,False);
+ 
+-#ifdef HAVE_APP_GTK
+-  gdk_error_trap_pop();
+-#else
+-  XSetErrorHandler(old_handler);
+-#endif
+ 
++  error_trap_exit();
++  
+   Window lastMouseRoot = 0;
+   while (1)
+     {
+@@ -265,6 +258,8 @@ X11InputMonitor::run_events()
+ 
+       if (gotEvent)
+         {
++          error_trap_enter();
++          
+           switch (event.xany.type)
+             {
+             case KeyPress:
+@@ -280,15 +275,22 @@ X11InputMonitor::run_events()
+               handle_button(&event);
+               break;
+             }
++
++          error_trap_exit();
+         }
+ 
++      
+       // timeout
+       Window root, child;
+       int root_x, root_y, win_x, win_y;
+       unsigned mask;
+ 
++      error_trap_enter();
++      
+       XQueryPointer(x11_display, root_window, &root, &child, &root_x, &root_y, &win_x, &win_y, &mask);
+ 
++      error_trap_exit();
++      
+       lastMouseRoot = root;
+       fire_mouse(root_x, root_y);
+     }
+@@ -342,22 +344,12 @@ X11InputMonitor::set_event_mask(Window w
+ void
+ X11InputMonitor::set_all_events(Window window)
+ {
+-
+-#ifdef HAVE_APP_GTK
+-  gdk_error_trap_push();
+-#else
+-  int (*old_handler)(Display *dpy, XErrorEvent *error);
+-  old_handler = XSetErrorHandler(&errorHandler);
+-#endif
+-
++  error_trap_enter();
++  
+   set_event_mask(window);
+   XSync(x11_display,False);
+ 
+-#ifdef HAVE_APP_GTK
+-  gdk_error_trap_pop();
+-#else
+-  XSetErrorHandler(old_handler);
+-#endif
++  error_trap_exit();
+ }
+ 
+ 
+@@ -400,7 +392,28 @@ X11InputMonitor::handle_button(XEvent *e
+     }
+ }
+ 
++void
++X11InputMonitor::error_trap_enter()
++{
++#ifdef HAVE_APP_GTK
++  gdk_error_trap_push();
++#else
++  int (*old_handler)(Display *dpy, XErrorEvent *error);
++  old_handler = XSetErrorHandler(&errorHandler);
++#endif
++}
+ 
++void
++X11InputMonitor::error_trap_exit()
++{
++#ifdef HAVE_APP_GTK
++  gdk_flush ();
++  gdk_error_trap_pop();
++#else
++  XSetErrorHandler(old_handler);
++#endif
++}
++  
+ 
+ #ifdef HAVE_XRECORD
+ 
+diff -up workrave-1.9.1/backend/src/unix/X11InputMonitor.hh.abort workrave-1.9.1/backend/src/unix/X11InputMonitor.hh
+--- workrave-1.9.1/backend/src/unix/X11InputMonitor.hh.abort	2009-05-28 21:04:02.000000000 +0200
++++ workrave-1.9.1/backend/src/unix/X11InputMonitor.hh	2010-04-26 10:31:50.000000000 +0200
+@@ -1,6 +1,6 @@
+ // X11InputMonitor.hh --- ActivityMonitor for X11
+ //
+-// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
++// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009, 2010 Rob Caelers <robc@krandor.nl>
+ // All rights reserved.
+ //
+ // This program is free software: you can redistribute it and/or modify
+@@ -60,6 +60,9 @@ private:
+   //! the events execution thread.
+   void run_events();
+ 
++  void error_trap_enter();
++  void error_trap_exit();
++  
+ #ifdef HAVE_XRECORD
+   //! Initialize
+   bool init_xrecord();
+diff -up workrave-1.9.1/configure.abort workrave-1.9.1/configure
+--- workrave-1.9.1/configure.abort	2009-10-25 12:15:06.000000000 +0100
++++ workrave-1.9.1/configure	2010-04-26 10:38:10.000000000 +0200
+@@ -29896,7 +29896,7 @@ $as_echo "#define HAVE_GNET2 /**/" >>con
+ fi
+ 
+ HAVE_APP_GTK=
+-if test "x$GTKMM_LIBS" != "x"; then
++if test "x$GTK_LIBS" != "x"; then
+ 
+ $as_echo "#define HAVE_APP_GTK /**/" >>confdefs.h
+ 
+diff -up workrave-1.9.1/configure.ac.abort workrave-1.9.1/configure.ac
+--- workrave-1.9.1/configure.ac.abort	2009-10-24 10:12:32.000000000 +0200
++++ workrave-1.9.1/configure.ac	2010-04-26 10:31:50.000000000 +0200
+@@ -663,7 +663,7 @@ if test "x$GNET2" != "x"; then
+ fi
+         
+ HAVE_APP_GTK=
+-if test "x$GTKMM_LIBS" != "x"; then
++if test "x$GTK_LIBS" != "x"; then
+    AC_DEFINE(HAVE_APP_GTK,,[Define if Gtk is available])
+ fi
+ 
