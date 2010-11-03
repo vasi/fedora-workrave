@@ -1,14 +1,13 @@
 Name: workrave
-Version: 1.9.1
-Release: 4%{?dist}
+Version: 1.9.2
+Release: 1%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPLv2+
 Group: Applications/Productivity
-URL: http://workrave.sourceforge.net/
-Source0: http://prdownloads.sourceforge.net/workrave/%{name}-%{version}.tar.gz
-Patch1: workrave-1.9.1-compile.patch
-Patch2: workrave-1.9.1-abort.patch
+URL: http://www.workrave.org/
+Source0: http://downloads.sourceforge.net/workrave/%{name}-%{version}.tar.gz
+Patch1: workrave-1.9.2-compile.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gettext
@@ -20,8 +19,11 @@ BuildRequires:  libXmu-devel
 BuildRequires:  libXt-devel
 BuildRequires:  libXtst-devel
 BuildRequires:  dbus-devel
+BuildRequires:  dbus-glib-devel
 BuildRequires:  gstreamer-devel
 BuildRequires:  intltool
+BuildRequires:  python-cheetah
+BuildRequires:  pulseaudio-libs-devel
 
 Requires: dbus
 
@@ -33,7 +35,6 @@ take micro-pauses, rest breaks and restricts you to your daily limit.
 %prep
 %setup -q -n %{name}-%{version}
 %patch1 -p1 -b .compile
-%patch2 -p1 -b .abort
 
 %build
 if [ ! -x configure ]; then
@@ -78,6 +79,9 @@ desktop-file-install --vendor fedora                    \
 %{_datadir}/dbus-1/services/org.workrave.Workrave.service
 
 %changelog
+* Wed Nov  3 2010 Tomas Mraz <tmraz@redhat.com> - 1.9.2-1
+- new upstream release hopefully fixing at least some of the aborts
+
 * Mon Apr 26 2010 Tomas Mraz <tmraz@redhat.com> - 1.9.1-4
 - better guard for BadWindow errors in input monitor (#566156)
 
