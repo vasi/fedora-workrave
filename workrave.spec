@@ -1,5 +1,5 @@
 Name: workrave
-Version: 1.9.2
+Version: 1.9.3
 Release: 1%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
@@ -7,7 +7,6 @@ License: GPLv2+
 Group: Applications/Productivity
 URL: http://www.workrave.org/
 Source0: http://downloads.sourceforge.net/workrave/%{name}-%{version}.tar.gz
-Patch1: workrave-1.9.2-compile.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gettext
@@ -34,7 +33,6 @@ take micro-pauses, rest breaks and restricts you to your daily limit.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch1 -p1 -b .compile
 
 %build
 if [ ! -x configure ]; then
@@ -79,6 +77,9 @@ desktop-file-install --vendor fedora                    \
 %{_datadir}/dbus-1/services/org.workrave.Workrave.service
 
 %changelog
+* Fri Dec 17 2010 Tomas Mraz <tmraz@redhat.com> - 1.9.3-1
+- new upstream release with bug fixes and usability improvements
+
 * Wed Nov  3 2010 Tomas Mraz <tmraz@redhat.com> - 1.9.2-1
 - new upstream release hopefully fixing at least some of the aborts
 
