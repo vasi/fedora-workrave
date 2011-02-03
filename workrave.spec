@@ -1,6 +1,6 @@
 Name: workrave
 Version: 1.9.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPLv2+
@@ -77,6 +77,9 @@ desktop-file-install --vendor fedora                    \
 %{_datadir}/dbus-1/services/org.workrave.Workrave.service
 
 %changelog
+* Thu Feb  3 2011 Tomas Mraz <tmraz@redhat.com> - 1.9.3-2
+- rebuilt with new gnome-panel
+
 * Fri Dec 17 2010 Tomas Mraz <tmraz@redhat.com> - 1.9.3-1
 - new upstream release with bug fixes and usability improvements
 
