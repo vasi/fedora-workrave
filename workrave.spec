@@ -1,6 +1,6 @@
 Name: workrave
 Version: 1.9.3
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPLv2+
@@ -9,10 +9,10 @@ URL: http://www.workrave.org/
 Source0: http://downloads.sourceforge.net/workrave/%{name}-%{version}.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires:  gtkmm24-devel
+BuildRequires:  gconfmm26-devel
 BuildRequires:  gettext
 BuildRequires:  gnet2-devel
-BuildRequires:  libgnomeuimm26-devel
-BuildRequires:  gnome-panel-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libXmu-devel
 BuildRequires:  libXt-devel
@@ -40,7 +40,7 @@ if [ ! -x configure ]; then
   NOCONFIGURE=1 ./autogen.sh
 fi
 
-%configure --enable-dbus --disable-xml
+%configure --enable-dbus --disable-xml --disable-gnome
 
 %{__make}
 
@@ -68,15 +68,15 @@ desktop-file-install --vendor fedora                    \
 %{_bindir}/*
 %{_datadir}/workrave/
 %{_datadir}/sounds/workrave
-%{_sysconfdir}/sound/events/workrave.soundlist
-%{_libdir}/bonobo/servers/Workrave-Applet.server
-%{_libexecdir}/workrave-applet
-%{_datadir}/gnome-2.0/ui/GNOME_WorkraveApplet.xml
 %{_datadir}/pixmaps/workrave
 %{_datadir}/applications/fedora-workrave.desktop
 %{_datadir}/dbus-1/services/org.workrave.Workrave.service
 
 %changelog
+* Thu Feb 10 2011 Tomas Mraz <tmraz@redhat.com> - 1.9.3-4
+- due to changes in gnome applet API we have to build without
+  gnome support
+
 * Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.9.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
