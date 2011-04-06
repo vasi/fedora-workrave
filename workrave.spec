@@ -1,6 +1,6 @@
 Name: workrave
-Version: 1.9.3
-Release: 4%{?dist}
+Version: 1.9.4
+Release: 1%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPLv2+
@@ -8,7 +8,6 @@ Group: Applications/Productivity
 URL: http://www.workrave.org/
 Source0: http://downloads.sourceforge.net/workrave/%{name}-%{version}.tar.gz
 
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gtkmm24-devel
 BuildRequires:  gconfmm26-devel
 BuildRequires:  gettext
@@ -59,20 +58,24 @@ desktop-file-install --vendor fedora                    \
   $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
-%clean
-%{__rm} -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(-,root,root)
 %doc AUTHORS COPYING NEWS README
 %{_bindir}/*
 %{_datadir}/workrave/
-%{_datadir}/sounds/workrave
-%{_datadir}/pixmaps/workrave
+%{_datadir}/sounds/workrave/
+%{_datadir}/icons/hicolor/48x48/apps/workrave-icon-huge.png
+%{_datadir}/icons/hicolor/scalable/apps/workrave-sheep.svg
 %{_datadir}/applications/fedora-workrave.desktop
 %{_datadir}/dbus-1/services/org.workrave.Workrave.service
 
 %changelog
+* Wed Apr 06 2011 Rahul Sundaram <sundaram@fedoraproject.org> - 1.9.4-1
+- New upstream bug fix release. Closes rhbz#693958
+- https://github.com/rcaelers/workrave/blob/b491d9b5054b5571d5b4ff0f6c9137133735129d/NEWS
+- Drop buildroot definition and clean section 
+
 * Thu Feb 10 2011 Tomas Mraz <tmraz@redhat.com> - 1.9.3-4
 - due to changes in gnome applet API we have to build without
   gnome support
