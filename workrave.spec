@@ -1,6 +1,6 @@
 Name: workrave
 Version: 1.9.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPLv2+
@@ -9,9 +9,8 @@ URL: http://www.workrave.org/
 Source0: http://downloads.sourceforge.net/workrave/%{name}-%{version}.tar.gz
 
 BuildRequires:  gtkmm24-devel
-BuildRequires:  gconfmm26-devel
+BuildRequires:  GConf2-devel
 BuildRequires:  gettext
-BuildRequires:  gnet2-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libXmu-devel
 BuildRequires:  libXt-devel
@@ -39,7 +38,7 @@ if [ ! -x configure ]; then
   NOCONFIGURE=1 ./autogen.sh
 fi
 
-%configure --enable-dbus --disable-xml --disable-gnome
+%configure --enable-dbus --disable-xml
 
 %{__make}
 
@@ -71,6 +70,9 @@ desktop-file-install --vendor fedora                    \
 %{_datadir}/dbus-1/services/org.workrave.Workrave.service
 
 %changelog
+* Tue Jun 28 2011 Tomas Mraz <tmraz@redhat.com> - 1.9.4-2
+- no longer needs gnet2
+
 * Wed Apr 06 2011 Rahul Sundaram <sundaram@fedoraproject.org> - 1.9.4-1
 - New upstream bug fix release. Closes rhbz#693958
 - https://github.com/rcaelers/workrave/blob/b491d9b5054b5571d5b4ff0f6c9137133735129d/NEWS
