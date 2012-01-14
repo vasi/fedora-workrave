@@ -1,6 +1,6 @@
 Name: workrave
 Version: 1.9.4
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPLv2+
@@ -70,6 +70,9 @@ desktop-file-install --vendor fedora                    \
 %{_datadir}/dbus-1/services/org.workrave.Workrave.service
 
 %changelog
+* Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.9.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Mon Nov  7 2011 Tomas Mraz <tmraz@redhat.com> - 1.9.4-3
 - rebuilt with new libpng
 
