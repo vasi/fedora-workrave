@@ -29,6 +29,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  libXmu-devel
 BuildRequires:  libXt-devel
 BuildRequires:  libXtst-devel
+BuildRequires:	libXScrnSaver-devel
 BuildRequires:  dbus-devel
 BuildRequires:  gstreamer-devel
 BuildRequires:  intltool
@@ -159,7 +160,7 @@ desktop-file-install --vendor fedora                    \
 * Thu Jan 28 2010 Tomas Mraz <tmraz@redhat.com> - 1.9.1-2
 - do not build against gdome2 - not too useful optional feature
 
-* Tue Dec  9 2009 Tomas Mraz <tmraz@redhat.com> - 1.9.1-1
+* Tue Dec  8 2009 Tomas Mraz <tmraz@redhat.com> - 1.9.1-1
 - new upstream version
 
 * Mon Jul 27 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.9.0-4
