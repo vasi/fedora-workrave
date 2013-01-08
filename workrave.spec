@@ -34,6 +34,7 @@ BuildRequires:  gstreamer-devel
 BuildRequires:  intltool
 BuildRequires:  python-cheetah
 BuildRequires:  pulseaudio-libs-devel
+BuildRequires:	autoconf, automake, libtool
 
 Requires: dbus
 
