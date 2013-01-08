@@ -1,22 +1,35 @@
+%global commit 6f9bc5d9d66c6042923ca39367f54db39ecd914a
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+%global commitdate 20130107
+
 Name: workrave
-Version: 1.9.4
-Release: 6%{?dist}
+Version: 1.9.911
+Release: 0.1.%{commitdate}git%{shortcommit}%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPLv2+
 Group: Applications/Productivity
 URL: http://www.workrave.org/
-Source0: http://downloads.sourceforge.net/workrave/%{name}-%{version}.tar.gz
+# Using github checkout:
+# https://github.com/rcaelers/workrave
+# Source0: http://downloads.sourceforge.net/workrave/%{name}-%{version}.tar.gz
+Source0: https://github.com/rcaelers/workrave/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
+Patch0: workrave-6f9bc5d-fix-configure.patch
+Patch1: workrave-6f9bc5d-fix-desktop-translation.patch
 
-BuildRequires:  gtkmm24-devel
-BuildRequires:  GConf2-devel
+BuildRequires:	gnome-panel-devel
+BuildRequires:	glib2-devel >= 2.28.0
+BuildRequires:	gtk3-devel >= 3.0.0
+BuildRequires:	libsigc++20-devel >= 2.2.4.2
+BuildRequires:	glibmm24-devel >= 2.28.0
+BuildRequires:	gtkmm30-devel >= 3.0.0
+# BuildRequires:  GConf2-devel
 BuildRequires:  gettext
 BuildRequires:  desktop-file-utils
 BuildRequires:  libXmu-devel
 BuildRequires:  libXt-devel
 BuildRequires:  libXtst-devel
 BuildRequires:  dbus-devel
-BuildRequires:  dbus-glib-devel
 BuildRequires:  gstreamer-devel
 BuildRequires:  intltool
 BuildRequires:  python-cheetah
@@ -29,8 +42,18 @@ Workrave is a program that assists in the recovery and prevention of
 Repetitive Strain Injury (RSI). The program frequently alerts you to
 take micro-pauses, rest breaks and restricts you to your daily limit.
 
+%package devel
+Requires:	%{name} = %{version}-%{release}
+Summary:	Development files for workrave
+
+%description devel
+Development files for workrave.
+
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-%{commit}
+%patch0 -p1 -b .fix
+%patch1 -p1 -b .fixpl
+touch ChangeLog
 
 %build
 if [ ! -x configure ]; then
@@ -38,38 +61,58 @@ if [ ! -x configure ]; then
   NOCONFIGURE=1 ./autogen.sh
 fi
 
-%configure --enable-dbus --disable-xml
+%configure --enable-dbus --disable-xml --enable-gnome3 --disable-static
 
 %{__make}
 
 %install
-%{__rm} -rf $RPM_BUILD_ROOT
+make install DESTDIR=%{buildroot}
 
-make install DESTDIR=$RPM_BUILD_ROOT
+rm -rf %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/*.a
 
 %find_lang %{name}
 
 desktop-file-install --vendor fedora                    \
-  --dir ${RPM_BUILD_ROOT}%{_datadir}/applications       \
+  --dir %{buildroot}%{_datadir}/applications       \
   --add-category X-Fedora                               \
   --remove-category GTK                                 \
   --delete-original                                     \
-  $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
-
-
+  %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 %files -f %{name}.lang
-%defattr(-,root,root)
 %doc AUTHORS COPYING NEWS README
 %{_bindir}/*
 %{_datadir}/workrave/
 %{_datadir}/sounds/workrave/
-%{_datadir}/icons/hicolor/48x48/apps/workrave-icon-huge.png
-%{_datadir}/icons/hicolor/scalable/apps/workrave-sheep.svg
+%{_datadir}/icons/hicolor/16x16/apps/workrave.png
+%{_datadir}/icons/hicolor/24x24/apps/workrave.png
+%{_datadir}/icons/hicolor/32x32/apps/workrave.png
+%{_datadir}/icons/hicolor/48x48/apps/workrave.png
+%{_datadir}/icons/hicolor/64x64/apps/workrave.png
+%{_datadir}/icons/hicolor/96x96/apps/workrave.png
+%{_datadir}/icons/hicolor/128x128/apps/workrave.png
+%{_datadir}/icons/hicolor/scalable/workrave-sheep.svg
+%{_datadir}/icons/hicolor/scalable/apps/workrave.svg
 %{_datadir}/applications/fedora-workrave.desktop
 %{_datadir}/dbus-1/services/org.workrave.Workrave.service
+%{_datadir}/dbus-1/services/org.gnome.panel.applet.WorkraveAppletFactory.service
+%{_datadir}/glib-2.0/schemas/org.workrave.*.xml
+%{_datadir}/gnome-panel/4.0/applets/org.workrave.WorkraveApplet.panel-applet
+%{_datadir}/gnome-panel/ui/workrave-gnome-applet-menu.xml
+%{_datadir}/gnome-shell/extensions/workrave@workrave.org/
+%{_libdir}/girepository-1.0/Workrave-1.0.typelib
+%{_libexecdir}/workrave-applet
+%{_libdir}/libworkrave-private-1.0.so.*
+
+%files devel
+%{_datadir}/gir-1.0/Workrave-1.0.gir
+%{_libdir}/libworkrave-private-1.0.so
 
 %changelog
+* Tue Jan  8 2013 Tom Callaway <spot@fedoraproject.org> - 1.9.911-0.1.20130107git6f9bc5d
+- update to 1.9.911 checkout from github
+- build for gnome3
+
 * Sun Jul 22 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.9.4-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
