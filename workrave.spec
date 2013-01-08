@@ -23,7 +23,7 @@ BuildRequires:	gtk3-devel >= 3.0.0
 BuildRequires:	libsigc++20-devel >= 2.2.4.2
 BuildRequires:	glibmm24-devel >= 2.28.0
 BuildRequires:	gtkmm30-devel >= 3.0.0
-# BuildRequires:  GConf2-devel
+BuildRequires:	gobject-introspection-devel
 BuildRequires:  gettext
 BuildRequires:  desktop-file-utils
 BuildRequires:  libXmu-devel
