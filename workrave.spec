@@ -4,7 +4,7 @@
 
 Name: workrave
 Version: 1.9.911
-Release: 0.1.%{commitdate}git%{shortcommit}%{?dist}
+Release: 0.2.%{commitdate}git%{shortcommit}%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPLv2+
@@ -74,11 +74,9 @@ rm -rf %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/*.a
 
 %find_lang %{name}
 
-desktop-file-install --vendor fedora                    \
-  --dir %{buildroot}%{_datadir}/applications       \
-  --add-category X-Fedora                               \
-  --remove-category GTK                                 \
-  --delete-original                                     \
+desktop-file-install \
+  --dir %{buildroot}%{_datadir}/applications \
+  --delete-original \
   %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 %files -f %{name}.lang
@@ -111,6 +109,9 @@ desktop-file-install --vendor fedora                    \
 %{_libdir}/libworkrave-private-1.0.so
 
 %changelog
+* Fri Feb  8 2013 Tomáš Mráz <tmraz@redhat.com> - 1.9.911-0.2.20130107git6f9bc5d
+- drop --vendor from desktop-file-install call
+
 * Tue Jan  8 2013 Tom Callaway <spot@fedoraproject.org> - 1.9.911-0.1.20130107git6f9bc5d
 - update to 1.9.911 checkout from github
 - build for gnome3
