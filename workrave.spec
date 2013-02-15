@@ -93,7 +93,7 @@ desktop-file-install \
 %{_datadir}/icons/hicolor/128x128/apps/workrave.png
 %{_datadir}/icons/hicolor/scalable/workrave-sheep.svg
 %{_datadir}/icons/hicolor/scalable/apps/workrave.svg
-%{_datadir}/applications/fedora-workrave.desktop
+%{_datadir}/applications/workrave.desktop
 %{_datadir}/dbus-1/services/org.workrave.Workrave.service
 %{_datadir}/dbus-1/services/org.gnome.panel.applet.WorkraveAppletFactory.service
 %{_datadir}/glib-2.0/schemas/org.workrave.*.xml
