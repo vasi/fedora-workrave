@@ -1,41 +1,36 @@
-%global commit 6f9bc5d9d66c6042923ca39367f54db39ecd914a
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global commitdate 20130107
-
 Name: workrave
-Version: 1.9.911
-Release: 0.2.%{commitdate}git%{shortcommit}%{?dist}
+Version: 1.10
+Release: 1
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
-License: GPLv2+
+License: GPLv3+
 Group: Applications/Productivity
 URL: http://www.workrave.org/
 # Using github checkout:
 # https://github.com/rcaelers/workrave
 # Source0: http://downloads.sourceforge.net/workrave/%{name}-%{version}.tar.gz
-Source0: https://github.com/rcaelers/workrave/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
-Patch0: workrave-6f9bc5d-fix-configure.patch
+Source0: https://github.com/rcaelers/workrave/archive/%{commit}/%{name}-%{version}.tar.gz
 Patch1: workrave-6f9bc5d-fix-desktop-translation.patch
 
-BuildRequires:	gnome-panel-devel
-BuildRequires:	glib2-devel >= 2.28.0
-BuildRequires:	gtk3-devel >= 3.0.0
-BuildRequires:	libsigc++20-devel >= 2.2.4.2
-BuildRequires:	glibmm24-devel >= 2.28.0
-BuildRequires:	gtkmm30-devel >= 3.0.0
-BuildRequires:	gobject-introspection-devel
-BuildRequires:  gettext
-BuildRequires:  desktop-file-utils
-BuildRequires:  libXmu-devel
-BuildRequires:  libXt-devel
-BuildRequires:  libXtst-devel
-BuildRequires:	libXScrnSaver-devel
-BuildRequires:  dbus-devel
-BuildRequires:  gstreamer-devel
-BuildRequires:  intltool
-BuildRequires:  python-cheetah
-BuildRequires:  pulseaudio-libs-devel
-BuildRequires:	autoconf, automake, libtool
+BuildRequires: gnome-panel-devel
+BuildRequires: glib2-devel >= 2.28.0
+BuildRequires: gtk3-devel >= 3.0.0
+BuildRequires: libsigc++20-devel >= 2.2.4.2
+BuildRequires: glibmm24-devel >= 2.28.0
+BuildRequires: gtkmm30-devel >= 3.0.0
+BuildRequires: gobject-introspection-devel
+BuildRequires: gettext
+BuildRequires: desktop-file-utils
+BuildRequires: libXmu-devel
+BuildRequires: libXt-devel
+BuildRequires: libXtst-devel
+BuildRequires: libXScrnSaver-devel
+BuildRequires: dbus-devel
+BuildRequires: gstreamer-devel
+BuildRequires: intltool
+BuildRequires: python-cheetah
+BuildRequires: pulseaudio-libs-devel
+BuildRequires: autoconf, automake, libtool
 
 Requires: dbus
 
@@ -45,15 +40,14 @@ Repetitive Strain Injury (RSI). The program frequently alerts you to
 take micro-pauses, rest breaks and restricts you to your daily limit.
 
 %package devel
-Requires:	%{name} = %{version}-%{release}
-Summary:	Development files for workrave
+Requires: %{name} = %{version}-%{release}
+Summary: Development files for workrave
 
 %description devel
 Development files for workrave.
 
 %prep
-%setup -q -n %{name}-%{commit}
-%patch0 -p1 -b .fix
+%setup -q
 %patch1 -p1 -b .fixpl
 touch ChangeLog
 
@@ -65,7 +59,7 @@ fi
 
 %configure --enable-dbus --disable-xml --enable-gnome3 --disable-static
 
-%{__make}
+%{__make} V=1
 
 %install
 make install DESTDIR=%{buildroot}
@@ -109,6 +103,9 @@ desktop-file-install \
 %{_libdir}/libworkrave-private-1.0.so
 
 %changelog
+* Tue Feb 19 2013 Tomáš Mráz <tmraz@redhat.com> - 1.10-1
+- new upstream release
+
 * Fri Feb  8 2013 Tomáš Mráz <tmraz@redhat.com> - 1.9.911-0.2.20130107git6f9bc5d
 - drop --vendor from desktop-file-install call
 
