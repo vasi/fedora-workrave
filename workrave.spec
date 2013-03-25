@@ -1,6 +1,6 @@
 Name: workrave
 Version: 1.10
-Release: 1
+Release: 1%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPLv3+
@@ -59,7 +59,7 @@ fi
 
 %configure --enable-dbus --disable-xml --enable-gnome3 --disable-static
 
-%{__make} V=1
+make V=1
 
 %install
 make install DESTDIR=%{buildroot}
@@ -103,6 +103,9 @@ desktop-file-install \
 %{_libdir}/libworkrave-private-1.0.so
 
 %changelog
+* Mon Mar 25 2013 Peter Robinson <pbrobinson@fedoraproject.org> 1.10-2
+- Add missing distag
+
 * Tue Feb 19 2013 Tomáš Mráz <tmraz@redhat.com> - 1.10-1
 - new upstream release
 
