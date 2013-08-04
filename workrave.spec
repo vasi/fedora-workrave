@@ -1,6 +1,6 @@
 Name: workrave
 Version: 1.10
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPLv3+
@@ -103,6 +103,9 @@ desktop-file-install \
 %{_libdir}/libworkrave-private-1.0.so
 
 %changelog
+* Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.10-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Fri May  3 2013 Tomáš Mráz <tmraz@redhat.com> - 1.10-3
 - do not build the panel applet
 
