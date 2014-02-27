@@ -1,6 +1,6 @@
 Name: workrave
-Version: 1.10
-Release: 4%{?dist}
+Version: 1.10.3
+Release: 1%{?dist}
 Summary: Program that assists in the recovery and prevention of RSI
 # Based on older packages by Dag Wieers <dag@wieers.com> and Steve Ratcliffe
 License: GPLv3+
@@ -9,8 +9,8 @@ URL: http://www.workrave.org/
 # Using github checkout:
 # https://github.com/rcaelers/workrave
 # Source0: http://downloads.sourceforge.net/workrave/%{name}-%{version}.tar.gz
-Source0: https://github.com/rcaelers/workrave/archive/%{commit}/%{name}-%{version}.tar.gz
-Patch1: workrave-6f9bc5d-fix-desktop-translation.patch
+Source0: https://github.com/rcaelers/workrave/archive/%{commit}/%{name}-1_10_3.tar.gz
+#Patch1: workrave-6f9bc5d-fix-desktop-translation.patch
 
 BuildRequires: glib2-devel >= 2.28.0
 BuildRequires: gtk3-devel >= 3.0.0
@@ -24,8 +24,7 @@ BuildRequires: libXmu-devel
 BuildRequires: libXt-devel
 BuildRequires: libXtst-devel
 BuildRequires: libXScrnSaver-devel
-# Temporarily disabled because not usable without panel
-#BuildRequires: dbus-devel
+BuildRequires: dbus-devel
 BuildRequires: gstreamer-devel
 BuildRequires: intltool
 BuildRequires: python-cheetah
@@ -47,8 +46,8 @@ Summary: Development files for workrave
 Development files for workrave.
 
 %prep
-%setup -q
-%patch1 -p1 -b .fixpl
+%setup -q -n %{name}-1_10_3
+#%patch1 -p1 -b .fixpl
 touch ChangeLog
 
 %build
@@ -57,7 +56,7 @@ if [ ! -x configure ]; then
   NOCONFIGURE=1 ./autogen.sh
 fi
 
-%configure --disable-dbus --disable-xml --enable-gnome3 --disable-static
+%configure --disable-xml --disable-static
 
 make V=1
 
@@ -88,7 +87,7 @@ desktop-file-install \
 %{_datadir}/icons/hicolor/scalable/workrave-sheep.svg
 %{_datadir}/icons/hicolor/scalable/apps/workrave.svg
 %{_datadir}/applications/workrave.desktop
-#%{_datadir}/dbus-1/services/org.workrave.Workrave.service
+%{_datadir}/dbus-1/services/org.workrave.Workrave.service
 #%{_datadir}/dbus-1/services/org.gnome.panel.applet.WorkraveAppletFactory.service
 #%{_datadir}/glib-2.0/schemas/org.workrave.*.xml
 #%{_datadir}/gnome-panel/4.0/applets/org.workrave.WorkraveApplet.panel-applet
@@ -103,6 +102,9 @@ desktop-file-install \
 %{_libdir}/libworkrave-private-1.0.so
 
 %changelog
+* Thu Feb 27 2014 Dave Vasilevsky <dave@vasilevsky.ca> - 1.10.3-1
+- Update for compatibility with Gnome 3.10
+
 * Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.10-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
